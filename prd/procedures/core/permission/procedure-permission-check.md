@@ -4,6 +4,14 @@
 
 Evaluates whether a specific tool invocation is allowed based on the current permission mode, configured rules, dangerous pattern detection, and classifier-based analysis. This is the central safety mechanism in Claude Code.
 
+The permission system is part of a **three-layer safety net** architecture where each layer serves a distinct role and no layer can bypass another:
+
+1. **Speculative Classifier** (Layer 1 — pre-judgment): BashTool risk classifier runs in parallel with hooks, providing early risk assessment. Its result is advisory only — it informs but cannot override the other layers.
+2. **Hook Policy Layer** (Layer 2 — policy enforcement): PreToolUse hooks can return allow/deny/ask decisions. However, **Hook allow cannot bypass settings deny** — this is enforced by resolveHookPermissionDecision().
+3. **Permission Decision** (Layer 3 — final authority): Combines rule configuration, classifier results, hook outcomes, and user interaction for the final decision.
+
+This "powerful but controlled" design means even if a hook has a bug or is maliciously exploited, it cannot silently approve a settings-denied operation.
+
 ## Participating Roles
 
 | Role | Responsibilities |

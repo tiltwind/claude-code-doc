@@ -18,3 +18,5 @@ Business enumerations and constant definitions used across the Claude Code produ
 | [Hook Event Type](core/dictionary-hook-event-type.md) | Core | Events that trigger hooks |
 | [Settings Source](core/dictionary-settings-source.md) | Core | Sources from which settings are loaded |
 | [Voice State](core/dictionary-voice-state.md) | Core | States of the voice input system |
+| [Agent Type](core/dictionary-agent-type.md) | Core | Built-in agent types with role-specific tool sets |
+| [Task Type](core/dictionary-task-type.md) | Core | Execution context types for background/foreground tasks |

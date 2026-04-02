@@ -10,3 +10,4 @@ Core processes governing conversation flow, tool execution, and permission evalu
 | [Conversation](conversation/procedure-message-compaction.md) | Message Compaction | Compressing conversation history when context limits approach |
 | [Tool System](tool-system/procedure-tool-execution.md) | Tool Execution | How Claude invokes tools and processes results |
 | [Permission](permission/procedure-permission-check.md) | Permission Check | Evaluating whether a tool invocation is allowed |
+| [Prompt System](prompt-system/procedure-prompt-assembly.md) | Prompt Assembly | Assembling and caching the system prompt for API calls |

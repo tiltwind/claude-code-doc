@@ -26,6 +26,20 @@ Claude Code is Anthropic's official command-line interface (CLI) for Claude AI, 
 | Multi-Agent Collaboration | Sub-agents, teammate agents, coordinator mode, and agent swarms for parallelizing complex tasks |
 | IDE Integration | Direct connections to VS Code, JetBrains, and other editors for seamless code navigation and editing |
 
+## Design Principles
+
+Seven design principles extracted from the architecture, each backed by concrete implementation in the codebase:
+
+| # | Principle | Description | Implementation Example |
+|---|-----------|-------------|----------------------|
+| 1 | **Don't Trust Model Spontaneity** | Desired behaviors are codified into system prompts and runtime checks, not left to the model's improvisation. Behavioral rules are written as institution, not suggestion. | getSimpleDoingTasksSection() and getActionsSection() — explicit "do/don't" rules in system prompt |
+| 2 | **Separate Roles** | At minimum, separate "doers" from "validators". Even when using the same model, splitting responsibilities dramatically improves quality. | Verification Agent (adversarial tester), Explore Agent (read-only), Plan Agent (no execution) |
+| 3 | **Tool Invocation Requires Governance** | The model requesting a tool doesn't mean it executes immediately. Every invocation passes through input validation, risk classification, hooks, and permission decisions. | toolExecution.ts 14-step pipeline |
+| 4 | **Context Is Budget** | Every token costs money and occupies scarce space. Cacheable content is cached, lazy-loaded content stays out until needed, and compressible content gets compressed. | SYSTEM_PROMPT_DYNAMIC_BOUNDARY for prompt cache, fork-path cache optimization, four-stage compression |
+| 5 | **Safety Layers Must Not Bypass Each Other** | The three-layer defense (classifier, hook, permission) can collaborate but no layer can override another's deny. A hook bug cannot silently approve a settings-denied operation. | resolveHookPermissionDecision(): Hook allow cannot bypass settings deny |
+| 6 | **Ecosystem Key Is Model Awareness** | Giving the system ten plugins is useless if the model doesn't know when to use which. The extension mechanism's last mile is making the model see its own capability list. | MCP instructions injection, skill discovery, session-specific guidance in system prompt |
+| 7 | **Productization Is About Day Two** | Day one is easy. The hard part is interruption recovery, dirty state cleanup, process leak handling, and session restoration. Without these, the product is just a demo. | runAgent.ts cleanup chain: transcript recording, MCP disconnection, hook cleanup, shell task termination, todo entry cleanup |
+
 ## Product Boundary
 
 ### In Scope

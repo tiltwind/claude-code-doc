@@ -12,3 +12,4 @@ Fundamental models powering the conversation engine, tool system, and task manag
 | [Tool System](tool-system/model-tool.md) | Tool | A capability that Claude can invoke |
 | [Tool System](tool-system/model-tool-result.md) | Tool Result | The output of a tool invocation |
 | [Task Management](task-management/model-task.md) | Task | A trackable work item within a session |
+| [Prompt System](prompt-system/model-system-prompt.md) | System Prompt | Assembled instruction set with static/dynamic caching |
